@@ -2,27 +2,21 @@
   <div>
     <el-container style="position: relative;">
       <el-header :height="'40px'">
-        <Header :TopologyData="TopologyData" @lock="onRootChange" :canvas='canvas'></Header>
+        <Header :TopologyData="TopologyData" @lock="onRootChange" :canvas="canvas"></Header>
       </el-header>
       <el-container class="topology">
         <el-aside width="175px">
           <ToolBar></ToolBar>
         </el-aside>
         <el-main>
-          <div
-            id="topology-canvas"
-            class="full"
-            :class="TopologyData.grid ? 'canvas-container' : ''"
-            @contextmenu="onContextMenu($event)"
-          >
+          <div id="topology-canvas" class="full" :class="TopologyData.grid ? 'canvas-container' : ''" @contextmenu="onContextMenu($event)"></div>
+          <div class="context-menu" v-if="contextmenu.left" :style="contextmenu">
+            <CanvasContextMenu :canvas="canvas" :pprops.sync="props"></CanvasContextMenu>
           </div>
-            <div class="context-menu" v-if="contextmenu.left" :style="contextmenu">
-              <CanvasContextMenu :canvas="canvas" :pprops.sync="props"></CanvasContextMenu>
-            </div>
         </el-main>
         <el-aside width="260px">
-          <SettingBar :data.sync="TopologyData" :props.sync="props" :canvasData="canvasData" :canvas="canvas"></SettingBar>
-          </el-aside>
+          <SettingBar :data.sync="TopologyData" :pprops.sync="props" :canvasData="canvasData" :canvas="canvas"></SettingBar>
+        </el-aside>
       </el-container>
     </el-container>
   </div>
@@ -93,6 +87,14 @@ export default {
   },
   mounted() {
     this.init()
+  },
+  watch: {
+    'props.node': {
+      handler() {
+        this.canvas.render()
+      },
+      deep: true
+    }
   },
   methods: {
     init() {
@@ -267,7 +269,7 @@ export default {
   padding: 0;
 }
 
-.topology{
+.topology {
   display: flex;
   width: 100%;
   height: 100%;

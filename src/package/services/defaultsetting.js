@@ -83,3 +83,41 @@ export const lineFontTextBaseline = [
     value: 'bottom'
   }
 ]
+export const iconAligns = [
+  {
+    value: 'center',
+    label: '居中'
+  },
+  {
+    value: 'top',
+    label: '上'
+  },
+  {
+    value: 'bottom',
+    label: '下'
+  },
+  {
+    value: 'left',
+    label: '左'
+  },
+  {
+    value: 'right',
+    label: '右'
+  },
+  {
+    value: 'left-top',
+    label: '左上'
+  },
+  {
+    value: 'right-top',
+    label: '右上'
+  },
+  {
+    value: 'left-bottom',
+    label: '左下'
+  },
+  {
+    value: 'right-bottom',
+    label: '右下'
+  }
+]

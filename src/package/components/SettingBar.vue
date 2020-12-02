@@ -1,115 +1,72 @@
 <template>
   <div class="props">
     <!-- 选中节点 -->
-    <el-collapse
-      class="toolbar"
-      v-model="activeNames"
-      v-if="props.node && !TopologyData.locked"
-    >
-      <el-collapse-item
-        title="位置和大小"
-        name="1"
-        v-if="props.node && !TopologyData.locked"
-      >
+    <el-collapse class="toolbar" v-model="activeNames" v-if="props.node && !TopologyData.locked">
+      <el-collapse-item title="位置和大小" name="1" v-if="props.node && !TopologyData.locked">
         <el-row :gutter="16" class="row-layout">
           <el-col :span="12">
             <div class="bable">X(px)</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.rect.x"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input-number v-model="props.node.rect.x" @change="host.onUpdateProps(props.node)" :controls="false"></el-input-number>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">Y(px)</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.rect.y"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.rect.y" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">宽(px)</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.rect.width"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.rect.width" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">高(px)</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.rect.height"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.rect.height" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">
               圆角
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="Top Left 提示文字"
-                placement="top-start"
-              >
+              <el-tooltip class="item" effect="dark" content="Top Left 提示文字" placement="top-start">
                 <i class="el-icon-bell"></i>
               </el-tooltip>
             </div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.borderRadius"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.borderRadius" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">旋转 （°）</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.rotate"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.rotate" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">内边距 - 左</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.paddingLeft"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.paddingLeft" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">内边距 - 右</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.paddingRight"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.paddingRight" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">内边距 - 上</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.paddingTop"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.paddingTop" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">内边距 - 下</div>
             <div class="bable-content">
-              <el-input
-                v-model="props.node.paddingBottom"
-                @change="host.onUpdateProps(props.node)"
-              ></el-input>
+              <el-input v-model="props.node.paddingBottom" @change="host.onUpdateProps(props.node)"></el-input>
             </div>
           </el-col>
 
@@ -118,642 +75,275 @@
           </div>
         </el-row>
       </el-collapse-item>
-      <el-collapse-item
-        title="样式"
-        name="2"
-        v-if="props.node && !TopologyData.locked"
-      >
+      <el-collapse-item title="样式" name="2" v-if="props.node && !TopologyData.locked">
         <el-row :gutter="16" class="row-layout">
           <el-col :span="24">
             <div class="bable">线条样式</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.node.dash"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              >
-                <el-option
-                  v-for="item in lineDash"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.node.dash" style="width:100%;" @change="host.onUpdateProps(props.node)">
+                <el-option v-for="item in lineDash" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">线条颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.node.strokeStyle"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.node)"
-              />
-              <el-input
-                v-model="props.node.strokeStyle"
-                placeholder="线条颜色"
-                @change="host.onUpdateProps(props.node)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.node.strokeStyle" defaultColor="#222" class="color-picker" @change="host.onUpdateProps(props.node)" />
+              <el-input v-model="props.node.strokeStyle" placeholder="线条颜色" @change="host.onUpdateProps(props.node)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">线条宽度(px)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.node.lineWidth"
-                :min="1"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              />
+              <el-input-number v-model="props.node.lineWidth" :min="1" style="width:100%;" @change="host.onUpdateProps(props.node)" />
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">背景颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.node.fillStyle"
-                class="color-picker"
-                @change="host.onUpdateProps(props.node)"
-              />
-              <el-input
-                :value="props.node.fillStyle || '#fff'"
-                placeholder="背景颜色"
-                @change="host.onUpdateProps(props.node)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.node.fillStyle" class="color-picker" @change="host.onUpdateProps(props.node)" />
+              <el-input :value="props.node.fillStyle || '#fff'" placeholder="背景颜色" @change="host.onUpdateProps(props.node)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">透明度(0-1)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.node.globalAlpha"
-                :min="0"
-                :max="1"
-                :step="0.1"
-                default-value="1"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              />
+              <el-input-number v-model="props.node.globalAlpha" :min="0" :max="1" :step="0.1" default-value="1" style="width:100%;" @change="host.onUpdateProps(props.node)" />
             </div>
           </el-col>
         </el-row>
       </el-collapse-item>
-      <el-collapse-item
-        title="文字"
-        name="3"
-        v-if="props.node && !TopologyData.locked"
-      >
+      <el-collapse-item title="文字" name="3" v-if="props.node && !TopologyData.locked">
         <el-row :gutter="16" class="row-layout">
           <el-col :span="12">
             <div class="bable">大小</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.node.font.fontSize"
-                :min="12"
-                :precision="0"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              />
+              <el-input-number v-model="props.node.font.fontSize" :min="12" :precision="0" style="width:100%;" @change="host.onUpdateProps(props.node)" />
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">加粗</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.node.font.fontWeight"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              >
-                <el-option
-                  v-for="item in lineFontFontWeight"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.node.font.fontWeight" style="width:100%;" @change="host.onUpdateProps(props.node)">
+                <el-option v-for="item in lineFontFontWeight" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.node.font.color"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.node)"
-              />
-              <el-input
-                v-model="props.node.font.color"
-                placeholder="颜色"
-                @change="host.onUpdateProps(props.node)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.node.font.color" defaultColor="#222" class="color-picker" @change="host.onUpdateProps(props.node)" />
+              <el-input v-model="props.node.font.color" placeholder="颜色" @change="host.onUpdateProps(props.node)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">倾斜</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.node.font.fontStyle"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              >
-                <el-option
-                  v-for="item in lineFontFontStyle"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.node.font.fontStyle" style="width:100%;" @change="host.onUpdateProps(props.node)">
+                <el-option v-for="item in lineFontFontStyle" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">水平对齐</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.node.font.textAlign"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              >
-                <el-option
-                  v-for="item in lineFontTextAlign"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.node.font.textAlign" style="width:100%;" @change="host.onUpdateProps(props.node)">
+                <el-option v-for="item in lineFontTextAlign" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">垂直对齐</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.node.font.textBaseline"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.node)"
-              >
-                <el-option
-                  v-for="item in lineFontTextBaseline"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.node.font.textBaseline" style="width:100%;" @change="host.onUpdateProps(props.node)">
+                <el-option v-for="item in lineFontTextBaseline" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="24">
             <div class="bable">内容</div>
             <div class="bable-content">
-              <el-input
-                type="textarea"
-                v-model="props.node.text"
-                placeholder="文字内容"
-                :auto-size="{ minRows: 4, maxRows: 10 }"
-                @change="host.onUpdateProps(props.node)"
-              />
+              <el-input type="textarea" v-model="props.node.text" placeholder="文字内容" :auto-size="{ minRows: 4, maxRows: 10 }" @change="host.onUpdateProps(props.node)" />
+            </div>
+          </el-col>
+        </el-row>
+      </el-collapse-item>
+      <el-collapse-item title="图片" name="4" v-if="props.node && !TopologyData.locked">
+        <div class="tips">
+          图片、字体图标同时存在时，图片优先
+        </div>
+        <el-row :gutter="16" class="row-layout">
+          <el-col :span="24">
+            <div class="bable-horizontal">图片选择</div>
+            <div class="bable-horizontal-content">
+              <el-image v-if="props.node.image" style="width: 100px; height: 100px" :src="props.node.image" fit="cover"></el-image>
+              <i v-else class="el-icon-upload bable-upload"></i>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="bable">宽（px）</div>
+            <div class="bable-content">
+              <el-input v-model="props.node.imageWidth" placeholder=""></el-input>
+            </div>
+          </el-col>
+          <el-col :span="12">
+            <div class="bable">高（px）</div>
+            <div class="bable-content">
+              <el-input v-model="props.node.imageHeight" placeholder=""></el-input>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <el-checkbox v-model="props.node.imageRatio">保存图片比例</el-checkbox>
+          </el-col>
+          <div class="line"></div>
+          <el-col :span="24">
+            <div class="bable-horizontal">字体图标</div>
+            <div class="bable-horizontal-content">
+              <i class="el-icon-upload bable-upload"></i>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <div class="bable-horizontal">字体大小</div>
+            <div class="bable-horizontal-content">
+              <el-input v-model="props.node.iconSize" placeholder=""></el-input>
+            </div>
+          </el-col>
+          <el-col :span="24">
+            <div class="bable-horizontal">字体颜色</div>
+            <div class="bable-horizontal-content">
+              <el-color-picker v-model="props.node.iconColor" defaultColor="#222" class="color-picker" @change="host.onUpdateProps(props.node)" />
+              <el-input v-model="props.node.iconColor" placeholder="颜色" @change="host.onUpdateProps(props.node)"> </el-input>
+            </div>
+          </el-col>
+          <div class="line"></div>
+          <el-col :span="24">
+            <div class="bable-horizontal">对齐方式</div>
+            <div class="bable-horizontal-content">
+              <el-select v-model="props.node.imageAlign" placeholder="请选择">
+                <el-option v-for="item in iconAligns" :key="item.value" :label="item.label" :value="item.value"> </el-option>
+              </el-select>
             </div>
           </el-col>
         </el-row>
       </el-collapse-item>
     </el-collapse>
-    <!-- <div v-if="props.node && !TopologyData.locked">
-      <div class="title">样式</div>
-      <el-row :gutter="16" class="row-layout">
-        <el-col :span="24">
-          <div class="bable">线条样式</div>
-          <div class="bable-content">
-            <el-select
-              v-model="props.node.dash"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            >
-              <el-option :value="0" label="直线">直线</el-option>
-              <el-option :value="1">虚线</el-option>
-              <el-option :value="2">大虚线</el-option>
-              <el-option :value="3">断点虚线</el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">线条颜色</div>
-          <div class="bable-content">
-              <el-color-picker
-                v-model="props.node.strokeStyle"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.node)"
-              />
-            <el-input
-              v-model="props.node.strokeStyle"
-              placeholder="线条颜色"
-              @change="host.onUpdateProps(props.node)"
-            >
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">线条宽度(px)</div>
-          <div class="bable-content">
-            <el-input-number
-              v-model="props.node.lineWidth"
-              :min="1"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            />
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">背景颜色</div>
-          <div class="bable-content">
-            <el-color-picker
-                v-model="props.node.fillStyle"
-                class="color-picker"
-                @change="host.onUpdateProps(props.node)"
-              />
-            <el-input
-              :value="props.node.fillStyle || '#fff'"
-              placeholder="背景颜色"
-              @change="host.onUpdateProps(props.node)"
-            >
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">透明度(0-1)</div>
-          <div class="bable-content">
-            <el-input-number
-              v-model="props.node.globalAlpha"
-              :min="0"
-              :max="1"
-              :step="0.1"
-              default-value="1"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            />
-          </div>
-        </el-col>
-      </el-row>
-      <div class="title">文字</div>
-      <el-row :gutter="16" class="row-layout">
-        <el-col :span="12">
-          <div class="bable">大小</div>
-          <div class="bable-content">
-            <el-input-number
-              v-model="props.node.font.fontSize"
-              :min="12"
-              :precision="0"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            />
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">加粗</div>
-          <div class="bable-content">
-            <el-select
-              v-model="props.node.font.fontWeight"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            >
-              <el-option :value="'normal'">正常</el-option>
-              <el-option :value="'bold'">加粗</el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">颜色</div>
-          <div class="bable-content">
-              <el-color-picker
-                v-model="props.node.font.color"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.node)"
-              />
-            <el-input
-              v-model="props.node.font.color"
-              placeholder="颜色"
-              @change="host.onUpdateProps(props.node)"
-            >
-            </el-input>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">倾斜</div>
-          <div class="bable-content">
-            <el-select
-              v-model="props.node.font.fontStyle"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            >
-              <el-option :value="'normal'">正常</el-option>
-              <el-option :value="'italic'">倾斜</el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">水平对齐</div>
-          <div class="bable-content">
-            <el-select
-              v-model="props.node.font.textAlign"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            >
-              <el-option :value="'left'">左对齐</el-option>
-              <el-option :value="'center'">居中</el-option>
-              <el-option :value="'right'">右对齐</el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="12">
-          <div class="bable">垂直对齐</div>
-          <div class="bable-content">
-            <el-select
-              v-model="props.node.font.textBaseline"
-              style="width:100%;"
-              @change="host.onUpdateProps(props.node)"
-            >
-              <el-option :value="'top'">顶部对齐</el-option>
-              <el-option :value="'middle'">居中</el-option>
-              <el-option :value="'bottom'">底部对齐</el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="24">
-          <div class="bable">内容</div>
-          <div class="bable-content">
-            <el-input
-              type="textarea"
-              v-model="props.node.text"
-              placeholder="文字内容"
-              :auto-size="{ minRows: 4, maxRows: 10 }"
-              @change="host.onUpdateProps(props.node)"
-            />
-          </div>
-        </el-col>
-      </el-row>
-    </div> -->
     <!-- 选中线条 -->
-    <el-collapse
-      class="toolbar"
-      v-model="activeNames"
-      v-if="props.line && !TopologyData.locked"
-    >
-      <el-collapse-item
-        title="样式"
-        name="2"
-        v-if="props.line && !TopologyData.locked"
-      >
+    <el-collapse class="toolbar" v-model="activeNames" v-if="props.line && !TopologyData.locked">
+      <el-collapse-item title="样式" name="2" v-if="props.line && !TopologyData.locked">
         <el-row :gutter="16" class="row-layout">
           <el-col :span="12">
             <div class="bable">线条样式</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.dash"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="item in lineDash"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.line.dash" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="item in lineDash" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">连线类型</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.name"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="item in lineName"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.line.name" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="item in lineName" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">线条颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.line.strokeStyle"
-                defaultColor="#222"
-                @change="host.onUpdateProps(props.line)"
-              />
-              <el-input
-                v-model="props.line.strokeStyle"
-                placeholder="颜色"
-                @change="host.onUpdateProps(props.line)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.line.strokeStyle" defaultColor="#222" @change="host.onUpdateProps(props.line)" />
+              <el-input v-model="props.line.strokeStyle" placeholder="颜色" @change="host.onUpdateProps(props.line)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">线条宽度(px)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.line.lineWidth"
-                :min="1"
-                :precision="0"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input-number v-model="props.line.lineWidth" :min="1" :precision="0" style="width:100%;" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">连线边框</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.line.borderColor"
-                defaultColor="#000000"
-                class="color-picker"
-                @change="host.onUpdateProps(props.line)"
-              />
-              <el-input
-                v-model="props.line.borderColor"
-                placeholder="边框"
-                @change="host.onUpdateProps(props.line)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.line.borderColor" defaultColor="#000000" class="color-picker" @change="host.onUpdateProps(props.line)" />
+              <el-input v-model="props.line.borderColor" placeholder="边框" @change="host.onUpdateProps(props.line)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">边框宽度(px)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.line.borderWidth"
-                :min="0"
-                :precision="0"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input-number v-model="props.line.borderWidth" :min="0" :precision="0" style="width:100%;" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">透明度(0-1)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.line.globalAlpha"
-                :min="0"
-                :max="1"
-                :step="0.1"
-                default-value="1"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input-number v-model="props.line.globalAlpha" :min="0" :max="1" :step="0.1" default-value="1" style="width:100%;" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
         </el-row>
       </el-collapse-item>
-      <el-collapse-item
-        title="文字"
-        name="3"
-        v-if="props.line && !TopologyData.locked"
-      >
+      <el-collapse-item title="文字" name="3" v-if="props.line && !TopologyData.locked">
         <el-row :gutter="16" class="row-layout">
           <el-col :span="12">
             <div class="bable">大小</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.line.font.fontSize"
-                :min="12"
-                :precision="0"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input-number v-model="props.line.font.fontSize" :min="12" :precision="0" style="width:100%;" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">加粗</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.font.fontWeight"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="item in lineFontFontWeight"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.line.font.fontWeight" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="item in lineFontFontWeight" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.line.font.color"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.line)"
-              />
-              <el-input
-                :value="props.line.font.color || '#222'"
-                placeholder="颜色"
-                @change="host.onUpdateProps(props.line)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.line.font.color" defaultColor="#222" class="color-picker" @change="host.onUpdateProps(props.line)" />
+              <el-input :value="props.line.font.color || '#222'" placeholder="颜色" @change="host.onUpdateProps(props.line)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">倾斜</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.font.fontStyle"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="item in lineFontFontStyle"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.line.font.fontStyle" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="item in lineFontFontStyle" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">水平对齐</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.font.textAlign"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="item in lineFontTextAlign"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.line.font.textAlign" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="item in lineFontTextAlign" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">垂直对齐</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.font.textBaseline"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="item in lineFontTextBaseline"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select v-model="props.line.font.textBaseline" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="item in lineFontTextBaseline" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="24">
             <div class="bable">内容</div>
             <div class="bable-content">
-              <el-input
-                type="textarea"
-                v-model="props.line.text"
-                placeholder="文字内容"
-                :auto-size="{ minRows: 4, maxRows: 10 }"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input type="textarea" v-model="props.line.text" placeholder="文字内容" :auto-size="{ minRows: 4, maxRows: 10 }" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
         </el-row>
       </el-collapse-item>
-      <el-collapse-item
-        title="箭头"
-        name="4"
-        v-if="props.line && !TopologyData.locked"
-      >
+      <el-collapse-item title="箭头" name="4" v-if="props.line && !TopologyData.locked">
         <el-row :gutter="16" class="row-layout">
           <el-col :span="12">
             <div class="bable">起点箭头</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.fromArrow"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="(item, index) in arrowTypes"
-                  :key="index"
-                  :value="item"
-                >
-                  <i
-                    :class="`iconfont icon-from-${item}`"
-                    style="font-size:30px;color:#000;"
-                  ></i>
+              <el-select v-model="props.line.fromArrow" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="(item, index) in arrowTypes" :key="index" :value="item">
+                  <i :class="`iconfont icon-from-${item}`" style="font-size:30px;color:#000;"></i>
                 </el-option>
               </el-select>
             </div>
@@ -761,21 +351,9 @@
           <el-col :span="12">
             <div class="bable">终点箭头</div>
             <div class="bable-content">
-              <el-select
-                v-model="props.line.toArrow"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              >
-                <el-option
-                  v-for="(item, index) in arrowTypes"
-                  :key="index"
-                  :value="item"
-                  :label="item"
-                >
-                  <i
-                    :class="`iconfont icon-to-${item}`"
-                    style="font-size:30px;color:#000;"
-                  ></i>
+              <el-select v-model="props.line.toArrow" style="width:100%;" @change="host.onUpdateProps(props.line)">
+                <el-option v-for="(item, index) in arrowTypes" :key="index" :value="item" :label="item">
+                  <i :class="`iconfont icon-to-${item}`" style="font-size:30px;color:#000;"></i>
                 </el-option>
               </el-select>
             </div>
@@ -783,59 +361,27 @@
           <el-col :span="12">
             <div class="bable">起点箭头颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.line.fromArrowColor"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.line)"
-              />
-              <el-input
-                :value="props.line.fromArrowColor || '#222'"
-                placeholder="颜色"
-                @change="host.onUpdateProps(props.line)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.line.fromArrowColor" defaultColor="#222" class="color-picker" @change="host.onUpdateProps(props.line)" />
+              <el-input :value="props.line.fromArrowColor || '#222'" placeholder="颜色" @change="host.onUpdateProps(props.line)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">起点箭头大小(px)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.line.fromArrowSize"
-                :min="5"
-                :precision="0"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input-number v-model="props.line.fromArrowSize" :min="5" :precision="0" style="width:100%;" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">终点箭头颜色</div>
             <div class="bable-content">
-              <el-color-picker
-                v-model="props.line.toArrowColor"
-                defaultColor="#222"
-                class="color-picker"
-                @change="host.onUpdateProps(props.line)"
-              />
-              <el-input
-                :value="props.line.toArrowColor || '#222'"
-                placeholder="颜色"
-                @change="host.onUpdateProps(props.line)"
-              >
-              </el-input>
+              <el-color-picker v-model="props.line.toArrowColor" defaultColor="#222" class="color-picker" @change="host.onUpdateProps(props.line)" />
+              <el-input :value="props.line.toArrowColor || '#222'" placeholder="颜色" @change="host.onUpdateProps(props.line)"> </el-input>
             </div>
           </el-col>
           <el-col :span="12">
             <div class="bable">终点箭头大小(px)</div>
             <div class="bable-content">
-              <el-input-number
-                v-model="props.line.toArrowSize"
-                :min="5"
-                :precision="0"
-                style="width:100%;"
-                @change="host.onUpdateProps(props.line)"
-              />
+              <el-input-number v-model="props.line.toArrowSize" :min="5" :precision="0" style="width:100%;" @change="host.onUpdateProps(props.line)" />
             </div>
           </el-col>
         </el-row>
@@ -849,11 +395,7 @@
             <div class="settings">
               <div class="item">
                 <span class="label">背景网格：</span>
-                <el-switch
-                  v-model="grid"
-                  size="small"
-                  @change="onSwitchChange"
-                />
+                <el-switch v-model="grid" size="small" @change="onSwitchChange" />
               </div>
             </div>
             <div class="bottom">
@@ -876,32 +418,14 @@
   </div>
 </template>
 <script>
-import {
-  lineDash,
-  lineFontFontWeight,
-  lineName,
-  lineFontFontStyle,
-  lineFontTextAlign,
-  lineFontTextBaseline
-} from '../services/defaultsetting'
+import { lineDash, lineFontFontWeight, lineName, lineFontFontStyle, lineFontTextAlign, lineFontTextBaseline, iconAligns } from '../services/defaultsetting'
 
 const lineNames = ['curve', 'polyline', 'line']
-const arrowTypes = [
-  '',
-  'triangleSolid',
-  'triangle',
-  'diamondSolid',
-  'diamond',
-  'circleSolid',
-  'circle',
-  'line',
-  'lineUp',
-  'lineDown'
-]
+const arrowTypes = ['', 'triangleSolid', 'triangle', 'diamondSolid', 'diamond', 'circleSolid', 'circle', 'line', 'lineUp', 'lineDown']
 
 export default {
   name: 'SettingBar',
-  props: ['data', 'props', 'canvasData', 'canvas'],
+  props: ['data', 'pprops', 'canvasData', 'canvas'],
   data() {
     return {
       lineDash,
@@ -912,6 +436,7 @@ export default {
       lineFontTextBaseline,
       lineNames,
       arrowTypes,
+      iconAligns,
       activeTab: 'component',
       grid: false,
       activeNames: ['1', '2', '3', '4']
@@ -925,6 +450,15 @@ export default {
       },
       set: function(params) {
         this.$emit('update:data', params)
+      }
+    },
+    props: {
+      get: function() {
+        return this.pprops
+      },
+      set: function(params) {
+        console.log(params)
+        this.$emit('update:pprops', params)
       }
     }
   },
@@ -1098,5 +632,23 @@ export default {
   color: #bfbfbf;
   padding: 0 10px;
   line-height: 1.5;
+}
+.line {
+  display: inline-block;
+  height: 1px;
+  width: 100%;
+  background-color: #dcdfe6;
+}
+.bable-horizontal {
+  display: inline-block;
+  width: 60px;
+}
+.bable-horizontal-content {
+  display: inline-block;
+  width: 170px;
+}
+.bable-upload {
+  font-size: 25px;
+  cursor: pointer;
 }
 </style>

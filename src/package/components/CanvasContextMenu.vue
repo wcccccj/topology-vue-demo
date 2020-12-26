@@ -91,7 +91,7 @@ export default {
         return this.pprops
       },
       set(val) {
-        this.$emit('updated:pprops', val)
+        this.$emit('update:pprops', val)
       }
     }
   },

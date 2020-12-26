@@ -1,11 +1,12 @@
 <template>
   <div>
-    <el-container style="position: relative;">
+    {{props.node}}
+    <el-container style="position: relative;overflow: hidden;">
       <el-header :height="'40px'">
-        <Header :TopologyData="TopologyData" @lock="onRootChange" :canvas="canvas"></Header>
+        <Header :TopologyData.sync="TopologyData" @lock="onRootChange" :canvas.sync="canvas"></Header>
       </el-header>
       <el-container class="topology">
-        <el-aside width="175px">
+        <el-aside style="height: 100%;" width="200px">
           <ToolBar></ToolBar>
         </el-aside>
         <el-main>
@@ -14,7 +15,7 @@
             <CanvasContextMenu :canvas="canvas" :pprops.sync="props"></CanvasContextMenu>
           </div>
         </el-main>
-        <el-aside width="260px">
+        <el-aside style="height: 100%;" width="260px">
           <SettingBar :data.sync="TopologyData" :pprops.sync="props" :canvasData="canvasData" :canvas="canvas"></SettingBar>
         </el-aside>
       </el-container>
@@ -33,12 +34,17 @@ import { register as registerFlow } from '@topology/flow-diagram'
 import { canvasRegister } from './services/canvas.js'
 import CanvasContextMenu from './components/CanvasContextMenu'
 import './static/font/arrow.scss'
+import './static/font/icon.scss'
 
 // let canvas
 const canvasOptions = {}
 
 export default {
   name: 'Index',
+  props: {
+    // 图片库
+    imgs: Array
+  },
   components: {
     Header,
     ToolBar,
@@ -59,7 +65,8 @@ export default {
         nodes: null,
         multi: false, // 多个对象
         expand: false,
-        locked: false
+        locked: false,
+        grid: true
       },
       contextmenu: {
         left: null,
@@ -69,7 +76,9 @@ export default {
       canvasData: {}, // 画布数据
       TopologyData: {
         grid: true, // 背景网格
-        locked: false // 画布锁定
+        locked: false, // 画布锁定
+        gridSize: 10,
+        rule: false
       }
     }
   },
@@ -102,12 +111,12 @@ export default {
       // 第一个参数'topo-canvas'表示canvas的dom元素id；第二个参数{}表示画布选项，这里表示全部使用默认值。
       canvasOptions.on = this.onMessage
       this.canvas = new Topology('topology-canvas', canvasOptions)
-      this.canvas.showGrid(true)
+      this.onGrid(true)
       // 渲染图形
       // const json = {}
       // this.canvas.open(json)
       // 如果json发送变化，重绘
-      this.canvas.render()
+      this.canvas.render(this.TopologyData)
     },
     onContextMenu(event) {
       event.preventDefault()
@@ -252,6 +261,28 @@ export default {
     handleConsoleClick(e) {
       e.preventDefault()
       console.log(JSON.stringify(this.canvas.data), '打印this.canvas.data数据')
+    },
+    onGrid(bool) {
+      this.canvas.data.grid = bool
+    },
+    setImage() {
+      this.canvas.clearBkImg()
+      this.canvas.data.bkImage = this.canvas.data.bkImage ? '' : 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1368982622,2733875015&fm=26&gp=0.jpg'
+    },
+    setGridSize(val) {
+      this.canvas.data.gridSize = val
+    },
+    setGridColor(val) {
+      this.canvas.data.gridColor = val
+    },
+    onRule(bool) {
+      this.canvas.data.rule = bool
+    },
+    setRuleColor(val) {
+      this.canvas.data.ruleColor = val
+    },
+    setBkColor(val) {
+      this.canvas.data.bkColor = val
     }
   }
 }
@@ -271,16 +302,15 @@ export default {
 
 .topology {
   display: flex;
-  width: 100%;
-  height: 100%;
+  height: calc(100vh - 40px);
 }
 .full {
   flex: 1;
-  width: initial;
+  width: 100%;
   position: relative;
-  overflow: auto;
+  overflow: hidden !important;
   background: #fff;
-  height: calc(100vh - 40px);
+  height: 100%;
 }
 
 .context-menu {

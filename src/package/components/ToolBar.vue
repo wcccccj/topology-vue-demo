@@ -1,26 +1,24 @@
 <template>
-  <div>
-    <!-- 左边图形库 -->
-    <div class="tools">
-      <el-input
-        v-model="search"
-        placeholder="搜索"
-        style="padding: 5px;box-sizing: border-box"
-        @input="searchChange"
-      ></el-input>
-      <div v-for="(item, index) in Tools" :key="index">
-        <div class="title">{{ item.group }}</div>
-        <div class="buttons">
-          <a
-            v-for="(btn, i) in item.children"
-            :key="i"
-            :title="btn.name"
-            :draggable="btn.data"
-            @dragstart="onDrag($event, btn)"
-          >
-            <i :class="`iconfont ${btn.icon}`"></i>
-          </a>
-        </div>
+  <!-- 左边图形库 -->
+  <div class="tools">
+    <el-input
+      v-model="search"
+      placeholder="搜索"
+      style="padding: 5px;box-sizing: border-box"
+      @input="searchChange"
+    ></el-input>
+    <div v-for="(item, index) in Tools" :key="index">
+      <div class="title">{{ item.group }}</div>
+      <div class="buttons">
+        <a
+          v-for="(btn, i) in item.children"
+          :key="i"
+          :title="btn.name"
+          :draggable="btn.data"
+          @dragstart="onDrag($event, btn)"
+        >
+          <i :class="`iconfont ${btn.icon}`"></i>
+        </a>
       </div>
     </div>
   </div>
@@ -56,13 +54,14 @@ export default {
 // 左侧图形库
 .tools {
   flex-shrink: 0;
-  width: 174px;
+  width: 200px;
   border-right: 1px solid #d9d9d9;
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
   top: 40px;
   bottom: 0;
+  z-index: 10;
   .title {
     color: #0d1a26;
     font-weight: 600;
@@ -101,7 +100,6 @@ export default {
   flex: 1;
   width: initial;
   position: relative;
-  overflow: auto;
   background: #fff;
 }
 

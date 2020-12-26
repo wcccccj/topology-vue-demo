@@ -25,98 +25,44 @@
       </el-menu>
       <el-menu mode="horizontal" class="full"></el-menu>
       <el-menu mode="horizontal">
-        <el-submenu
-          class="border-right"
-          index="view"
-          title="视图"
-          :show-timeout="0"
-          :hide-timeout="0"
-        >
+        <el-submenu class="border-right" index="view" title="视图" :show-timeout="0" :hide-timeout="0">
           <template slot="title"> 视图：{{ scale }}% </template>
           <el-menu-item class="item-view">
             {{ scale }}%
-            <el-button
-              type="text"
-              icon="el-icon-minus"
-              @click.stop="handleChange('minus')"
-            ></el-button>
-            <el-button
-              type="text"
-              icon="el-icon-plus"
-              @click.stop="handleChange('add')"
-            ></el-button>
-            <el-button size="small" @click.stop="handleChange('fit')"
-              >窗口大小</el-button
-            >
-            <el-button size="small" @click.stop="handleChange('reset')"
-              >重置</el-button
-            >
+            <el-button type="text" icon="el-icon-minus" @click.stop="handleChange('minus')"></el-button>
+            <el-button type="text" icon="el-icon-plus" @click.stop="handleChange('add')"></el-button>
+            <el-button size="small" @click.stop="handleChange('fit')">窗口大小</el-button>
+            <el-button size="small" @click.stop="handleChange('reset')">重置</el-button>
           </el-menu-item>
         </el-submenu>
         <el-menu-item class="border-right" @click="$emit('lock')">
-          <i
-            :class="TopologyData.locked ? 'el-icon-lock' : 'el-icon-unlock'"
-            :style="{ color: TopologyData.locked ? 'orange' : '' }"
-          ></i>
+          <i :class="TopologyData.locked ? 'el-icon-lock' : 'el-icon-unlock'" :style="{ color: TopologyData.locked ? 'orange' : '' }"></i>
         </el-menu-item>
-        <el-submenu
-          class="border-right"
-          index="state"
-          title="默认连线类型"
-          :show-timeout="0"
-          :hide-timeout="0"
-        >
+        <el-submenu class="border-right" index="state" title="默认连线类型" :show-timeout="0" :hide-timeout="0">
           <template slot="title">
             <i :class="`iconfont icon-${lineName}`"></i>
           </template>
-          <el-menu-item
-            v-for="(item, index) in lineNames"
-            :key="index"
-            :index="`line-${item}`"
-            @click="handleLinenameChange(item)"
-          >
+          <el-menu-item v-for="(item, index) in lineNames" :key="index" :index="`line-${item}`" @click="handleLinenameChange(item)">
             <i :class="`iconfont icon-${item}`"></i>
           </el-menu-item>
         </el-submenu>
       </el-menu>
       <el-menu mode="horizontal">
-        <el-submenu
-          class="border-right"
-          index="state"
-          title="默认起点箭头"
-          :show-timeout="0"
-          :hide-timeout="0"
-        >
+        <el-submenu class="border-right" index="state" title="默认起点箭头" :show-timeout="0" :hide-timeout="0">
           <template slot="title">
             <i :class="`iconfont icon-from-${fromArrowType}`"></i>
           </template>
-          <el-menu-item
-            v-for="(item, index) in arrowTypes"
-            :key="index"
-            :index="`fromArrow-${item}`"
-            @click="handlefromArrowChange(item)"
-          >
+          <el-menu-item v-for="(item, index) in arrowTypes" :key="index" :index="`fromArrow-${item}`" @click="handlefromArrowChange(item)">
             <i :class="`iconfont icon-from-${item}`"></i>
           </el-menu-item>
         </el-submenu>
       </el-menu>
       <el-menu mode="horizontal">
-        <el-submenu
-          class="border-right"
-          index="state"
-          title="默认终点箭头"
-          :show-timeout="0"
-          :hide-timeout="0"
-        >
+        <el-submenu class="border-right" index="state" title="默认终点箭头" :show-timeout="0" :hide-timeout="0">
           <template slot="title">
             <i :class="`iconfont icon-to-${toArrowType}`"></i>
           </template>
-          <el-menu-item
-            v-for="(item, index) in arrowTypes"
-            :key="index"
-            :index="`toArrow-${item}`"
-            @click="handletoArrowChange(item)"
-          >
+          <el-menu-item v-for="(item, index) in arrowTypes" :key="index" :index="`toArrow-${item}`" @click="handletoArrowChange(item)">
             <i :class="`iconfont icon-to-${item}`"></i>
           </el-menu-item>
         </el-submenu>
@@ -145,18 +91,7 @@ export default {
       license: false,
       joinin: false,
       lineNames: ['curve', 'polyline', 'line'],
-      arrowTypes: [
-        '',
-        'triangleSolid',
-        'triangle',
-        'diamondSolid',
-        'diamond',
-        'circleSolid',
-        'circle',
-        'line',
-        'lineUp',
-        'lineDown'
-      ]
+      arrowTypes: ['', 'triangleSolid', 'triangle', 'diamondSolid', 'diamond', 'circleSolid', 'circle', 'line', 'lineUp', 'lineDown']
     }
   },
   inject: ['host'],
@@ -192,7 +127,7 @@ export default {
 
       switch (key) {
         case 'new':
-          this.TopologyData.locked = false
+          // this.TopologyData.locked = false
           this.canvas.open()
           break
         case 'open':
@@ -231,17 +166,19 @@ export default {
     },
     // 默认连线类型
     handleLinenameChange(value) {
-      this.canvas.data.lineName = value
+      // this.canvas.data.lineName = value
+      // console.log(this.canvas)
+      this.$set(this.canvas.data, 'lineName', value)
       this.canvas.render()
     },
     // 默认起始箭头
     handlefromArrowChange(value) {
-      this.canvas.data.fromArrow = value
+      // this.canvas.data.fromArrow = value
       this.canvas.render()
     },
     // 默认终点箭头
     handletoArrowChange(value) {
-      this.canvas.data.toArrow = value
+      // this.canvas.data.toArrow = value
       this.canvas.render()
     },
     handleChange(type) {
@@ -278,7 +215,7 @@ export default {
             try {
               const data = JSON.parse(text)
               this.canvas.open(data)
-              this.TopologyData.locked = false
+              // this.TopologyData.locked = false
             } catch (e) {
               return false
             }
@@ -343,10 +280,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .headers {
-  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   display: flex;
   // font-size: 0.13rem;
   // height: 0.4rem;
@@ -364,32 +299,26 @@ export default {
   //   }
   // }
 }
-.el-submenu{
-
-  ::v-deep .el-submenu__title{
+.el-submenu {
+  ::v-deep .el-submenu__title {
     height: 40px;
     line-height: 40px;
-
   }
-
 }
-.el-menu{
-
-  ::v-deep .el-menu-item{
+.el-menu {
+  ::v-deep .el-menu-item {
     height: 40px;
     line-height: 40px;
-
   }
-
 }
 
 .el-menu-item,
 .el-submenu__title {
   color: #314659 !important;
-//   font-size: 0.13rem;
-//   padding: 0 8px !important;
-//   height: 0.39rem !important;
-//   line-height: 0.39rem !important;
+  //   font-size: 0.13rem;
+  //   padding: 0 8px !important;
+  //   height: 0.39rem !important;
+  //   line-height: 0.39rem !important;
 
   &.separator {
     border-top: 1px solid #e8e8e8;
@@ -412,37 +341,40 @@ export default {
   border-right: 1px solid #f3f3f3;
 }
 
-.el-menu--popup{
-    .el-menu-item{
-        background-color: #fff;
-        i{
-            margin-right: 5px;
-        }
-        i,span{
-            color:rgba(0,0,0,.8);
-        }
-        &:hover{
-          background-color: #66b1ff;
-            i,span{
-                color:#20222a;
-            }
-        }
-        &.is-active {
-            background-color: #c6e2ff;
-            &:before {
-                content: '';
-                top: 0;
-                left: 0;
-                bottom: 0;
-                width: 4px;
-                background: #c6e2ff;
-                position: absolute;
-            }
-            i,span{
-                color:rgba(0,0,0,.6);
-            }
-        }
+.el-menu--popup {
+  .el-menu-item {
+    background-color: #fff;
+    i {
+      margin-right: 5px;
     }
+    i,
+    span {
+      color: rgba(0, 0, 0, 0.8);
+    }
+    &:hover {
+      background-color: #66b1ff;
+      i,
+      span {
+        color: #20222a;
+      }
+    }
+    &.is-active {
+      background-color: #c6e2ff;
+      &:before {
+        content: '';
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 4px;
+        background: #c6e2ff;
+        position: absolute;
+      }
+      i,
+      span {
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+  }
 }
 
 // 让视图大小的操作框不被其他样式影响
@@ -456,7 +388,6 @@ export default {
     ::v-deep span {
       color: rgba(0, 0, 0, 0.6);
     }
-
   }
   &:hover {
     background-color: #fff !important;

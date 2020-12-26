@@ -31,7 +31,7 @@ export const Tools = [
           paddingTop: 10,
           paddingBottom: 10,
           name: 'rectangle',
-          icon: '\ue64d',
+          // icon: '\ue64d',
           iconFamily: 'topology',
           iconColor: '#2f54eb'
         }
@@ -242,7 +242,7 @@ export const Tools = [
             height: 100
           },
           name: 'image',
-          image: '/img/logo.png'
+          image: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3751723186,2217235996&fm=26&gp=0.jpg'
         }
       },
       {

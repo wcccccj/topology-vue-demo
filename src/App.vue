@@ -21,6 +21,6 @@ html,body {
   margin: 0;
 }
 #app {
-  padding: 50px;
+  /* padding: 50px; */
 }
 </style>
